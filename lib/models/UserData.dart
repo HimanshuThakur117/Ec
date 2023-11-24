@@ -27,7 +27,6 @@ class UserData {
     }
   }
 
-  get id => null;
 
 
 }
