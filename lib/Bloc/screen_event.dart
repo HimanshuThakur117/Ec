@@ -16,3 +16,5 @@ class AddToCartEvent extends DataEvent {
 
 class FetchDataEventForPreviewPage extends DataEvent {
 }
+class FetchDataEventForUserDetails extends DataEvent {
+}
