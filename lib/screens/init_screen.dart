@@ -42,7 +42,7 @@ class _InitScreenState extends State<InitScreen> {
         onTap: updateCurrentIndex,
         currentIndex: currentSelectedIndex,
         showSelectedLabels: true,
-        showUnselectedLabels: false,
+        showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(

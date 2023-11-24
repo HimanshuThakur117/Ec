@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/checkout/add_user_details.dart';
+import 'package:shop_app/screens/checkout/paymentpage.dart';
+import 'package:shop_app/screens/checkout/showlist%20address.dart';
 
 import '../../constants.dart';
 
@@ -47,6 +49,25 @@ class _CheckOutPageState extends State<CheckOutPage> {
                     ),
                   ),
                 ],
+              ),
+
+              ShowAddress(),
+
+              const SizedBox(
+                height: 60,
+              ),
+
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>  PaymentForm()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                    elevation: 10.0,
+                    textStyle: const TextStyle(color: Colors.white)),
+                child: const Text('Continue to pay'),
               ),
             ],
           ),
