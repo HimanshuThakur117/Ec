@@ -25,7 +25,8 @@ class ApiUrls{
 
   // endpoints
   static String product = "albums/1/photos"; // get
-  static String details = "posts"; // get
+  static String details = "posts"; // get //post
+  static String comments = "comments?postId=1"; // get
 
 
 

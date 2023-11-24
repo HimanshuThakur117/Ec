@@ -1,24 +1,28 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:shop_app/screens/init_screen.dart';
+import 'package:http/http.dart' as http;
+import '../../../Flavor/flavour.dart';
 import '../../../components/custom_surfix_icon.dart';
 import '../../../components/form_error.dart';
 import '../../../constants.dart';
-import '../../otp/otp_screen.dart';
+import '../../complete_profile/complete_profile_screen.dart';
 
-class CompleteProfileForm extends StatefulWidget {
-  const CompleteProfileForm({super.key});
+class UserForm extends StatefulWidget {
+  const UserForm({super.key});
 
   @override
-  _CompleteProfileFormState createState() => _CompleteProfileFormState();
+  _SignUpFormState createState() => _SignUpFormState();
 }
 
-class _CompleteProfileFormState extends State<CompleteProfileForm> {
+class _SignUpFormState extends State<UserForm> {
   final _formKey = GlobalKey<FormState>();
-  final List<String?> errors = [];
-  String? firstName;
-  String? lastName;
-  String? phoneNumber;
+  String? name;
   String? address;
+  String? phone;
+  bool remember = false;
+  final List<String?> errors = [];
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -36,6 +40,35 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     }
   }
 
+   Future<void> updateData(String name,address,phone) async {
+     try {
+       final response = await http.post(
+         Uri.parse(ApiUrls.getBaseUrl()+ApiUrls.details),
+         body: jsonEncode({
+           "name": name,
+           "address": address,
+           "phone": phone
+         }),
+         headers: {
+           'Content-type': 'application/json; charset=UTF-8',
+           // Add any other headers as needed by the API
+         },
+
+       );
+       print('Response status: ${response.statusCode}');
+
+
+       if (response.statusCode == 200) {
+         final data = json.decode(response.body);
+         print(data.toString());
+
+       } else {
+       }
+     } catch (e) {
+         print(e);
+     }
+   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -43,7 +76,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       child: Column(
         children: [
           TextFormField(
-            onSaved: (newValue) => firstName = newValue,
+            keyboardType: TextInputType.name,
+            onSaved: (newValue) => name = newValue,
             onChanged: (value) {
               if (value.isNotEmpty) {
                 removeError(error: kNameNullError);
@@ -58,54 +92,17 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
               return null;
             },
             decoration: const InputDecoration(
-              labelText: "First Name",
-              hintText: "Enter your first name",
+              labelText: "Name",
+              hintText: "Enter your Name",
               // If  you are using latest version of flutter then lable text and hint text shown like this
               // if you r using flutter less then 1.20.* then maybe this is not working properly
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+              suffixIcon: Icon(Icons.person),
             ),
           ),
           const SizedBox(height: 20),
           TextFormField(
-            onSaved: (newValue) => lastName = newValue,
-            decoration: const InputDecoration(
-              labelText: "Last Name",
-              hintText: "Enter your last name",
-              // If  you are using latest version of flutter then lable text and hint text shown like this
-              // if you r using flutter less then 1.20.* then maybe this is not working properly
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
-            ),
-          ),
-          const SizedBox(height: 20),
-          TextFormField(
-            keyboardType: TextInputType.phone,
-            onSaved: (newValue) => phoneNumber = newValue,
-            onChanged: (value) {
-              if (value.isNotEmpty) {
-                removeError(error: kPhoneNumberNullError);
-              }
-              return;
-            },
-            validator: (value) {
-              if (value!.isEmpty) {
-                addError(error: kPhoneNumberNullError);
-                return "";
-              }
-              return null;
-            },
-            decoration: const InputDecoration(
-              labelText: "Phone Number",
-              hintText: "Enter your phone number",
-              // If  you are using latest version of flutter then lable text and hint text shown like this
-              // if you r using flutter less then 1.20.* then maybe this is not working properly
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
-            ),
-          ),
-          const SizedBox(height: 20),
-          TextFormField(
+            obscureText: true,
             onSaved: (newValue) => address = newValue,
             onChanged: (value) {
               if (value.isNotEmpty) {
@@ -122,12 +119,36 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             },
             decoration: const InputDecoration(
               labelText: "Address",
-              hintText: "Enter your address",
+              hintText: "Enter your Address",
               // If  you are using latest version of flutter then lable text and hint text shown like this
               // if you r using flutter less then 1.20.* then maybe this is not working properly
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon:
-                  CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
+              suffixIcon: Icon(Icons.location_on),
+            ),
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            obscureText: true,
+            onSaved: (newValue) => phone = newValue,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: kPhoneNumberNullError);
+              }
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: kPhoneNumberNullError);
+                return "";
+              }
+              return null;
+            },
+            decoration: const InputDecoration(
+              labelText: "Phone",
+              hintText: "Enter your Phone",
+              // If  you are using latest version of flutter then lable text and hint text shown like this
+              // if you r using flutter less then 1.20.* then maybe this is not working properly
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              suffixIcon:  Icon(Icons.phone),
             ),
           ),
           FormError(errors: errors),
@@ -135,7 +156,10 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, OtpScreen.routeName);
+                _formKey.currentState!.save();
+                // if all are valid then go to success screen
+                 updateData(name!, address, phone);
+                Navigator.pushNamed(context, InitScreen.routeName);
               }
             },
             child: const Text("Continue"),

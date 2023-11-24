@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/checkout/add_user_details.dart';
 
 import '../../constants.dart';
 
@@ -25,7 +26,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 children: [
                  const  Text("Check out page",style: TextStyle( fontSize: 18),),
                   InkWell(
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AddUserDetails()),
+                      );
+                    },
                     child: Container(
                       height: 30,
                       width: 160,
