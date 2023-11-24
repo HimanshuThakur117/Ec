@@ -30,7 +30,7 @@ class _InitScreenState extends State<InitScreen> {
   final pages = [
     const HomeScreen(),
     //const CartScreen(),
-    const ProfileScreen(),
+    CartScreen(),
     const CheckOutPage()
   ];
 

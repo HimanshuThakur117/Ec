@@ -12,6 +12,7 @@ import '../models/Item.dart';
 
 // BLoC
 class DataBloc extends Bloc<DataEvent, DataState> {
+  List<ProductData> cartItems = [];
 
   DataBloc() : super(InitialDataState());
    @override
@@ -50,5 +51,27 @@ class DataBloc extends Bloc<DataEvent, DataState> {
       }
 
     }
+
+    else if (event is AddToCartEvent) {
+      // Handle Add to Cart Event
+      // You can update the state or perform other actions here
+      // For example, add the product to the cart list
+      cartItems.add(event.product);
+      //List<ProductData> updatedCart = [event.product, ];
+      yield CartUpdatedState(cartItems: cartItems);
+
+    }
+    else if (event is FetchDataforcartEvent) {
+      yield LoadingDataState();
+
+      try {
+
+          yield LoadedDataForCartState( addtocartItems: cartItems);
+      } catch (e) {
+        yield ErrorDataState('Error: $e');
+      }
+
+    }
+
   }
 }

@@ -53,12 +53,18 @@ class ProductsScreen extends StatelessWidget {
                     ),
                     childrenDelegate: SliverChildBuilderDelegate(
                         childCount: state.fetchedData.length,
-                            (context, index) => ProductCard( product: state.fetchedData[index], onPress: (){
+                            (context, index) => ProductCard( product: state.fetchedData[index],
+                                onPress: (){
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) =>  ProductPreview(product: state.fetchedData[index])),
                               );
-                            })
+                            },
+                                onAddToCart: () {
+                                 // Dispatch Add to Cart Event
+                                  context.read<DataBloc>().add(AddToCartEvent(state.fetchedData[index]));
+                              },
+                            )
                     ),
                   ),
                 ),

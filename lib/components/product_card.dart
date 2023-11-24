@@ -13,10 +13,12 @@ class ProductCard extends StatelessWidget {
     Key? key,
     required this.product,
     required this.onPress,
+    required this.onAddToCart,
   }) : super(key: key);
 
   final ProductData product;
   final VoidCallback onPress;
+  final VoidCallback onAddToCart;
 
   @override
   Widget build(BuildContext context) {
@@ -75,16 +77,16 @@ class ProductCard extends StatelessWidget {
                   const SizedBox(height: 10),
 
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: onAddToCart,/*() {
+                      *//*Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) =>  ProductPreview(product: product)),
-                      );
-                    },
+                      );*//*
+                    },*/
                     style: ElevatedButton.styleFrom(
                         elevation: 10.0,
                         textStyle: const TextStyle(color: Colors.white)),
-                     child: const Text('View More'),
+                     child: const Text('Add to cart'),
                   ),
                 ],
               ),

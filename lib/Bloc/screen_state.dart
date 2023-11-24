@@ -22,6 +22,26 @@ class LoadedDataStateOfPreviewPage extends DataState {
   LoadedDataStateOfPreviewPage( {required this.productDesc});
 }
 
+class CartUpdatedState extends DataState {
+  List<ProductData> cartItems;
+
+  CartUpdatedState({required this.cartItems});
+}
+
+class LoadedDataForCartState extends DataState {
+  //List<BestDealData> statsList = [];
+  List<ProductData> addtocartItems;
+  LoadedDataForCartState( {required this.addtocartItems });
+}
+
+
+/*class LoadedDataStateOfPreviewPage extends DataState {
+  List<String> productDesc;
+
+  LoadedDataStateOfPreviewPage({required this.productDesc});
+}*/
+
+
 class ErrorDataState extends DataState {
   final String error;
 
