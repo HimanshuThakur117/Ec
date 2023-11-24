@@ -2,6 +2,7 @@
 
 import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/models/UserData.dart';
+import 'package:shop_app/models/UserReview.dart';
 
 import '../models/Item.dart';
 
@@ -45,6 +46,12 @@ class LoadedDataForCartState extends DataState {
 class LoadedDataStateForUserDetails extends DataState {
   List<UserData> addressList;
   LoadedDataStateForUserDetails( {required this.addressList});
+}
+
+
+class LoadedDataStateForUserReview extends DataState {
+  List<UserReview> reviewList;
+  LoadedDataStateForUserReview( {required this.reviewList, required  });
 }
 class ErrorDataState extends DataState {
   final String error;
